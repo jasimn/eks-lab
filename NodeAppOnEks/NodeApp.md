@@ -105,4 +105,67 @@ If successful, Docker prints:
 ```bash
 Login Succeeded
 ```
+# 6. — Create a Simple Node.js App
+-------------------------
 
+Create a folder and a file:
+```bash
+mkdir mynodeapp
+cd mynodeapp
+vim app.js
+```
+Add simple code:
+```bash
+const express = require("express");
+const app = express();
+app.get("/", (req, res) => {
+  res.send("Hello from Node App on EKS!");
+});
+app.listen(3000, () => console.log("App running on port 3000"));
+```
+
+Initialize project:
+```bash
+npm init -y
+npm install express
+```
+-------------------------
+# 7 — Create Dockerfile
+-------------------------
+
+## Create Dockerfile:
+
+vim Dockerfile
+
+
+Put this inside:
+```bash
+FROM node:18
+
+WORKDIR /app
+
+# Copy only package.json first
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy rest of your app
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Start app
+CMD ["node", "app.js"]
+```
+
+## Build Docker image:
+```bash
+docker build -t mynodeapp:1.0 .
+```
+
+Test locally:
+```bash
+docker run -p 3000:3000 mynodeapp:1.0
+```
