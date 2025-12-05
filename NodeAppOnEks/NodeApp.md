@@ -204,12 +204,12 @@ aws ecr create-repository --repository-name mynodeapp
 
 3.2 Login to ECR
 ```bash
-aws ecr get-login-password --region ap-south-1 | \
-docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com
+aws ecr get-login-password --region us-east-1 | \
+docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com
 ```
 3.3 Tag & Push Image
 ```bash
-docker tag mynodeapp:1.0 <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
+docker tag mynodeapp:1.0 <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/mynodeapp:1.0
 docker push <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
 ```
 ![App Screenshot](https://github.com/jasimn/eks-lab/blob/main/Screenshot%20from%202025-12-05%2017-34-19.png)
