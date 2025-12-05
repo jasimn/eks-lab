@@ -1,9 +1,7 @@
---------------------------------------
+
 # Complete Guide to Setup Nodejs App in EKS
----------------------------------------
 ---------------------
 ## Create a user with administrative permission or assign permissions required to manage:
---------------------------------------
 * EKS clusters
 
 * ECR (Amazon Elastic Container Registry)
@@ -15,7 +13,7 @@
 ## After creation, we generate an access key and configure the AWS CLI on the local machine.
 ------------------------
 ##  🧩 step 1. Create IAM User
-------------------------------
+
 1.Log in to the AWS Console
 
 2.Go to IAM → Users
@@ -31,9 +29,8 @@ eks-demo
 
 6.Click Create user
 
-------------------------
 ## 🛡️ step 2. Attach Required Permissions
----------------------------
+
 1.Select the user → Permissions → Add permissions → Attach policies directly.
 
 Attach the following managed policies:
@@ -47,9 +44,10 @@ Attach the following managed policies:
 Or We can create adminstrative permisstion(optionaal):
 * AdministratorAccess
  ![App Screenshot](https://github.com/jasimn/eks-lab/blob/main/Screenshot%20from%202025-12-05%2015-23-39.png)
---------------------
+
 ## 🔑  step 3. Create Access Key
------------------------
+
+
 1.Go to IAM → Users → eks-demo
 
 2.Open Security credentials tab
@@ -201,6 +199,8 @@ docker run -p 3000:3000 mynodeapp:1.0
 ```bash
 aws ecr create-repository --repository-name mynodeapp
 ```
+ ![App Screenshot](https://github.com/jasimn/eks-lab/blob/main/Screenshot%20from%202025-12-05%2017-31-54.png)
+
 3.2 Login to ECR
 ```bash
 aws ecr get-login-password --region ap-south-1 | \
@@ -211,9 +211,11 @@ docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.ap-south-1
 docker tag mynodeapp:1.0 <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
 docker push <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
 ```
-------------------------
+![App Screenshot](https://github.com/jasimn/eks-lab/blob/main/Screenshot%20from%202025-12-05%2017-34-19.png)
+
+
 ## step 9. — Create EKS Cluster
------------------------
+
 ## If eksctl is not installed in your local machine.Please install first eksctl in your local machine.
 4.1 Create EKS cluster (simple command)
 ```bash
@@ -221,6 +223,8 @@ eksctl create cluster --name node-eks --region ap-south-1 --nodes 2
 ```
 * This will take 10–15 minutes.
 -------------------------
+![app screenshot](https://github.com/jasimn/eks-lab/blob/main/Screenshot%20from%202025-12-05%2017-36-18.png)
+
 ## STEP 10 — Configure kubectl
 -------------------------
 ```bash
@@ -258,7 +262,7 @@ spec:
     spec:
       containers:
       - name: nodeapp
-        image: <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
+        image: <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/mynodeapp:1.0
         ports:
         - containerPort: 3000
 ```
