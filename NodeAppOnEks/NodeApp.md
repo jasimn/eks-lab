@@ -1,6 +1,9 @@
+--------------------------------------
 # Complete Guide to Setup Nodejs App in EKS
-## create a user with administrative permission or assign permissions required to manage:
-
+---------------------------------------
+---------------------
+## Create a user with administrative permission or assign permissions required to manage:
+--------------------------------------
 * EKS clusters
 
 * ECR (Amazon Elastic Container Registry)
@@ -10,9 +13,9 @@
 * IAM roles required for EKS
 
 ## After creation, we generate an access key and configure the AWS CLI on the local machine.
-
-## 🧩 1. Create IAM User
-
+------------------------
+##  🧩 step 1. Create IAM User
+------------------------------
 1.Log in to the AWS Console
 
 2.Go to IAM → Users
@@ -28,8 +31,9 @@ eks-demo
 
 6.Click Create user
 
-## 🛡️ 2. Attach Required Permissions
-
+------------------------
+## 🛡️ step 2. Attach Required Permissions
+---------------------------
 1.Select the user → Permissions → Add permissions → Attach policies directly.
 
 Attach the following managed policies:
@@ -43,8 +47,9 @@ Attach the following managed policies:
 Or We can create adminstrative permisstion(optionaal):
 * AdministratorAccess
  ![App Screenshot](https://github.com/jasimn/eks-lab/blob/main/Screenshot%20from%202025-12-05%2015-23-39.png)
-## 🔑 3. Create Access Key
-
+--------------------
+## 🔑  step 3. Create Access Key
+-----------------------
 1.Go to IAM → Users → eks-demo
 
 2.Open Security credentials tab
@@ -64,10 +69,11 @@ Or We can create adminstrative permisstion(optionaal):
 ⚠️ This is the only time you can download the secret key.
 Keep it safe.
 
+--------------
+## 🖥️ step 4. Configure AWS CLI on Local Machine
+-------------------
 ## If aws-cli is not installed in your local machine please install aws-cli .
-
-## 🖥️ 4. Configure AWS CLI on Local Machine
-
+  
 Run:
 ```bash
 aws configure
@@ -92,7 +98,7 @@ Expected output should show:
 * "userId": "eks-demo",
 * "account": "<your-account-id>"
 
-# 📦 5. (Optional) Test ECR Login
+## 📦 step  5. (Optional) Test ECR Login
 
 Use the region where your ECR repo exists.
 ```bash
@@ -105,7 +111,7 @@ If successful, Docker prints:
 ```bash
 Login Succeeded
 ```
-# 6. — Create a Simple Node.js App
+## step 6. — Create a Simple Node.js App
 -------------------------
 
 Create a folder and a file:
@@ -149,7 +155,7 @@ package.json:
 }
 ```
 -------------------------
-# 7 — Create Dockerfile
+# step  7 — Create Dockerfile
 -------------------------
 
 ## Create Dockerfile:
@@ -188,7 +194,8 @@ Test locally:
 ```bash
 docker run -p 3000:3000 mynodeapp:1.0
 ```
-# 7. — Push Image to AWS ECR (Elastic Container Registry)
+-----------------------------
+## step 8. — Push Image to AWS ECR (Elastic Container Registry)
 -------------------------
 3.1 Create ECR Repository
 ```bash
@@ -204,7 +211,9 @@ docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.ap-south-1
 docker tag mynodeapp:1.0 <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
 docker push <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
 ```
-# 8. — Create EKS Cluster
+------------------------
+## step 9. — Create EKS Cluster
+-----------------------
 ## If eksctl is not installed in your local machine.Please install first eksctl in your local machine.
 4.1 Create EKS cluster (simple command)
 ```bash
@@ -212,10 +221,11 @@ eksctl create cluster --name node-eks --region ap-south-1 --nodes 2
 ```
 * This will take 10–15 minutes.
 -------------------------
-# STEP 9 — Configure kubectl
+## STEP 10 — Configure kubectl
 -------------------------
+```bash
 aws eks update-kubeconfig --name node-eks --region ap-south-1
-
+```
 
 Verify access:
 ```bash
@@ -223,9 +233,9 @@ kubectl get nodes
 ```
 
 -------------------------
-# STEP 9 — Create Kubernetes Deployment + Service
+## STEP 11 — Create Kubernetes Deployment + Service
 -------------------------
-9.1 Create deployment YAML
+11.1 Create deployment YAML
 ```bash
 vim deployment.yaml
 ```
@@ -257,7 +267,7 @@ Apply:
 kubectl apply -f deployment.yaml
 ```
 
-6.2 Create Service (LoadBalancer)
+11.2 Create Service (LoadBalancer)
 ```bash
 vim service.yaml
 ```
@@ -281,20 +291,20 @@ Apply:
 kubectl apply -f service.yaml
 ```
 -------------------------
-STEP 7 — Access the Application
+## STEP 12 — Access the Application
 -------------------------
 
 Check external load balancer URL:
 ```bash
 kubectl get svc nodeapp-service
 ```
-Output example:
+Output:
 
-* EXTERNAL-IP = a1b2c3d4e5f6.us-east-1.elb.amazonaws.com
+* EXTERNAL-IP = a984b1569d88d45dc9de2ed2e1e8327e-884567909.us-east-1.elb.amazonaws.com
 
-Open in browser:
-
-http://<EXTERNAL-IP>/
-
+Now we can open our app on this url:
+```bash
+http://a984b1569d88d45dc9de2ed2e1e8327e-884567909.us-east-1.elb.amazonaws.com
+```
 🎉 Your Node.js app is now running on EKS!
   
