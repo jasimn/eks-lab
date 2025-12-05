@@ -42,7 +42,7 @@ Attach the following managed policies:
   
 Or We can create adminstrative permisstion(optionaal):
 * AdministratorAccess
-* 
+ ![App Screenshot](https://github.com/jasimn/eks-lab/blob/main/Screenshot%20from%202025-12-05%2015-23-39.png)
 ## 🔑 3. Create Access Key
 
 1.Go to IAM → Users → eks-demo
