@@ -64,7 +64,7 @@ Or We can create adminstrative permisstion(optionaal):
 ⚠️ This is the only time you can download the secret key.
 Keep it safe.
 
-.
+## If aws-cli is not installed in your local machine please install aws-cli .
 
 ## 🖥️ 4. Configure AWS CLI on Local Machine
 
@@ -129,6 +129,25 @@ Initialize project:
 npm init -y
 npm install express
 ```
+## json file should like this.
+package.json:
+```bash
+{
+  "name": "mynodeapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.2.1"
+  }
+}
+```
 -------------------------
 # 7 — Create Dockerfile
 -------------------------
@@ -169,3 +188,26 @@ Test locally:
 ```bash
 docker run -p 3000:3000 mynodeapp:1.0
 ```
+# 7. — Push Image to AWS ECR (Elastic Container Registry)
+-------------------------
+3.1 Create ECR Repository
+```bash
+aws ecr create-repository --repository-name mynodeapp
+```
+3.2 Login to ECR
+```bash
+aws ecr get-login-password --region ap-south-1 | \
+docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com
+```
+3.3 Tag & Push Image
+```bash
+docker tag mynodeapp:1.0 <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
+docker push <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
+```
+# 8. — Create EKS Cluster
+## If eksctl is not installed in your local machine.Please install first eksctl in your local machine.
+4.1 Create EKS cluster (simple command)
+```bash
+eksctl create cluster --name node-eks --region ap-south-1 --nodes 2
+```
+* This will take 10–15 minutes.
