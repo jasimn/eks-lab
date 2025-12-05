@@ -39,6 +39,7 @@ Attach the following managed policies:
 * AmazonEC2FullAccess
 * IAMReadOnlyAccess
 * AmazonEC2ContainerRegistryFullAccess
+  
 Or We can create adminstrative permisstion(optionaal):
 * AdministratorAccess
 
