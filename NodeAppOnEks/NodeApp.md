@@ -63,3 +63,46 @@ Or We can create adminstrative permisstion(optionaal):
 
 ⚠️ This is the only time you can download the secret key.
 Keep it safe.
+
+.
+
+## 🖥️ 4. Configure AWS CLI on Local Machine
+
+Run:
+```bash
+aws configure
+```
+Enter:
+```bash
+
+AWS Access Key ID: <YOUR_KEY>
+AWS Secret Access Key: <YOUR_SECRET>
+Default region name: us-east-1   # or your region
+Default output format: json
+```
+
+Verify configuration:
+```bash
+
+aws sts get-caller-identity
+```
+
+Expected output should show:
+
+* "userId": "eks-demo",
+* "account": "<your-account-id>"
+
+# 📦 5. (Optional) Test ECR Login
+
+Use the region where your ECR repo exists.
+```bash
+aws ecr get-login-password --region us-east-1 \
+| docker login --username AWS \
+--password-stdin <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com
+```
+
+If successful, Docker prints:
+```bash
+Login Succeeded
+```
+
