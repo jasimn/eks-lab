@@ -1,6 +1,7 @@
 
 # Complete Guide to Setup Nodejs App in EKS
----------------------
+
+
 ## Create a user with administrative permission or assign permissions required to manage:
 * EKS clusters
 
@@ -11,7 +12,7 @@
 * IAM roles required for EKS
 
 ## After creation, we generate an access key and configure the AWS CLI on the local machine.
-------------------------
+
 ##  🧩 step 1. Create IAM User
 
 1.Log in to the AWS Console
@@ -67,9 +68,9 @@ Or We can create adminstrative permisstion(optionaal):
 ⚠️ This is the only time you can download the secret key.
 Keep it safe.
 
---------------
+
 ## 🖥️ step 4. Configure AWS CLI on Local Machine
--------------------
+
 ## If aws-cli is not installed in your local machine please install aws-cli .
   
 Run:
@@ -110,7 +111,7 @@ If successful, Docker prints:
 Login Succeeded
 ```
 ## step 6. — Create a Simple Node.js App
--------------------------
+
 
 Create a folder and a file:
 ```bash
@@ -152,9 +153,9 @@ package.json:
   }
 }
 ```
--------------------------
+
 # step  7 — Create Dockerfile
--------------------------
+
 
 ## Create Dockerfile:
 
@@ -192,9 +193,9 @@ Test locally:
 ```bash
 docker run -p 3000:3000 mynodeapp:1.0
 ```
------------------------------
+
 ## step 8. — Push Image to AWS ECR (Elastic Container Registry)
--------------------------
+
 3.1 Create ECR Repository
 ```bash
 aws ecr create-repository --repository-name mynodeapp
@@ -222,11 +223,13 @@ docker push <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
 eksctl create cluster --name node-eks --region ap-south-1 --nodes 2
 ```
 * This will take 10–15 minutes.
--------------------------
+
+  
 ![app screenshot](https://github.com/jasimn/eks-lab/blob/main/Screenshot%20from%202025-12-05%2017-36-18.png)
 
 ## STEP 10 — Configure kubectl
--------------------------
+
+
 ```bash
 aws eks update-kubeconfig --name node-eks --region ap-south-1
 ```
@@ -236,9 +239,8 @@ Verify access:
 kubectl get nodes
 ```
 
--------------------------
 ## STEP 11 — Create Kubernetes Deployment + Service
--------------------------
+
 11.1 Create deployment YAML
 ```bash
 vim deployment.yaml
@@ -294,9 +296,9 @@ Apply:
 ```bash
 kubectl apply -f service.yaml
 ```
--------------------------
+
 ## STEP 12 — Access the Application
--------------------------
+
 
 Check external load balancer URL:
 ```bash
