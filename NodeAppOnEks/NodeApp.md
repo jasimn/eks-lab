@@ -42,4 +42,24 @@ Attach the following managed policies:
   
 Or We can create adminstrative permisstion(optionaal):
 * AdministratorAccess
+* 
+## 🔑 3. Create Access Key
 
+1.Go to IAM → Users → eks-demo
+
+2.Open Security credentials tab
+
+3.Scroll to Access keys
+
+4.Click Create access key
+
+5.Select “Command Line Interface (CLI)”
+
+6.Download .csv file containing:
+
+* Access Key ID
+
+* Secret Access Key
+
+⚠️ This is the only time you can download the secret key.
+Keep it safe.
