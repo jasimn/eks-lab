@@ -211,3 +211,90 @@ docker push <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
 eksctl create cluster --name node-eks --region ap-south-1 --nodes 2
 ```
 * This will take 10–15 minutes.
+-------------------------
+# STEP 9 — Configure kubectl
+-------------------------
+aws eks update-kubeconfig --name node-eks --region ap-south-1
+
+
+Verify access:
+```bash
+kubectl get nodes
+```
+
+-------------------------
+# STEP 9 — Create Kubernetes Deployment + Service
+-------------------------
+9.1 Create deployment YAML
+```bash
+vim deployment.yaml
+```
+
+Paste:
+```bash
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodeapp
+  template:
+    metadata:
+      labels:
+        app: nodeapp
+    spec:
+      containers:
+      - name: nodeapp
+        image: <aws_account_id>.dkr.ecr.ap-south-1.amazonaws.com/mynodeapp:1.0
+        ports:
+        - containerPort: 3000
+```
+Apply:
+```bash
+kubectl apply -f deployment.yaml
+```
+
+6.2 Create Service (LoadBalancer)
+```bash
+vim service.yaml
+```
+Paste:
+```bash
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeapp-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: nodeapp
+  ports:
+  - port: 80
+    targetPort: 3000
+```
+
+Apply:
+```bash
+kubectl apply -f service.yaml
+```
+-------------------------
+STEP 7 — Access the Application
+-------------------------
+
+Check external load balancer URL:
+```bash
+kubectl get svc nodeapp-service
+```
+Output example:
+
+* EXTERNAL-IP = a1b2c3d4e5f6.us-east-1.elb.amazonaws.com
+
+Open in browser:
+
+http://<EXTERNAL-IP>/
+
+🎉 Your Node.js app is now running on EKS!
+  
